@@ -36,7 +36,7 @@ namespace Assets.Scripts
                     FieldArray[x, y] = GameObject.Instantiate(FieldPrefab);
                     FieldArray[x, y].transform.SetParent(FieldContainer.transform);
                     FieldArray[x, y].name = $"Field [{y},{x}]";
-                    FieldArray[x, y].transform.position = new Vector2(x, y); 
+                    FieldArray[x, y].transform.position = new Vector2(x + (0.05f * x), y + (0.05f * y));
                 }
             }
         }
