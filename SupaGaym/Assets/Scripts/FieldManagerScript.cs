@@ -19,12 +19,7 @@ namespace Assets.Scripts
             CreateFieldArray();
         }
 
-        // Update is called once per frame
-        private void Update()
-        {
-
-        }
-    
+       
         public void CreateFieldArray()
         {
             FieldArray = new GameObject[GlobalCore.FIELD_ARRAY_SIZE, GlobalCore.FIELD_ARRAY_SIZE];
@@ -35,7 +30,7 @@ namespace Assets.Scripts
                 {
                     FieldArray[x, y] = GameObject.Instantiate(FieldPrefab);
                     FieldArray[x, y].transform.SetParent(FieldContainer.transform);
-                    FieldArray[x, y].name = $"Field [{y},{x}]";
+                    FieldArray[x, y].name = $"Field [{x},{y}]";
                     FieldArray[x, y].transform.position = new Vector2(x + (0.05f * x), y + (0.05f * y));
                 }
             }

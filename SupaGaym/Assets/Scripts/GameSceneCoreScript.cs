@@ -8,6 +8,7 @@ namespace Assets.Scripts
         public FieldManagerScript FieldManagerScript;
         public PlayerScript Player1;
         public PlayerScript Player2;
+        public static PlayerScript ActivePlayer;
 
         // Start is called before the first frame update
         void Awake()
@@ -16,11 +17,13 @@ namespace Assets.Scripts
             
             InitializeCamera();
             
-            Player1 = new PlayerScript((int)GlobalCore.StartPosTopLeft.X, (int)GlobalCore.StartPosTopLeft.Y, Color.green);
-            SetStartPosition(Player1);
+            Player1 = new PlayerScript((int)GlobalCore.StartPosTopLeft.X, (int)GlobalCore.StartPosTopLeft.Y, Color.green, "Chrisi");
+            AssignFieldToPlayer(Player1.StartingPosX, Player1.StartingPosY, Player1.Color, Player1);
 
-            Player2 = new PlayerScript((int)GlobalCore.StartPosBottomRight.X, (int)GlobalCore.StartPosBottomRight.Y, Color.red);
-            SetStartPosition(Player2);
+            Player2 = new PlayerScript((int)GlobalCore.StartPosBottomRight.X, (int)GlobalCore.StartPosBottomRight.Y, Color.red, "Flo");
+            AssignFieldToPlayer(Player2.StartingPosX, Player2.StartingPosY, Player2.Color, Player2);
+
+            ActivePlayer = Player2;
         }
 
         // Update is called once per frame
@@ -36,15 +39,16 @@ namespace Assets.Scripts
             Camera.main.transform.position = new Vector3(x, y, GlobalCore.CAMERA_STANDARD_HEIGHT); 
         }
 
-        private void SetStartPosition(PlayerScript playerScript)
+        private void AssignFieldToPlayer(int xPos, int yPos, Color color, PlayerScript playerInstance)
         {
             for (int y = 0; y < FieldManagerScript.FieldArray.GetLength(1); y++ )
             {
                 for (int x = 0; x < FieldManagerScript.FieldArray.GetLength(0); x++)
                 {
-                    if (y == playerScript.StartingPosY &&  x == playerScript.StartingPosX)
+                    if (y == yPos &&  x == xPos)
                     {
-                        FieldManagerScript.FieldArray[x, y].GetComponent<SpriteRenderer>().color = playerScript.PlayerColor;
+                        FieldManagerScript.FieldArray[x, y].GetComponent<SpriteRenderer>().color = color;
+                        FieldManagerScript.FieldArray[x, y].GetComponent<FieldScript>().PlayerScriptInstance = playerInstance;
                     }
                 }
             }

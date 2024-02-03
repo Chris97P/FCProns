@@ -6,13 +6,15 @@ namespace Assets.Scripts
     {
         public int StartingPosX;
         public int StartingPosY;
-        public Color PlayerColor;
+        public Color Color;
+        public string Name;
 
-        public PlayerScript(int posX, int posY, Color color)
+        public PlayerScript(int startPosX, int startPosY, Color color, string name)
         {
-            StartingPosX = posX;
-            StartingPosY = posY;
-            PlayerColor = color;
+            StartingPosX = startPosX;
+            StartingPosY = startPosY;
+            Color = color;
+            Name = name;
         }
 
     }
