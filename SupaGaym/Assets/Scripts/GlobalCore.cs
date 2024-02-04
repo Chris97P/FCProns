@@ -46,6 +46,13 @@ namespace Assets.Scripts
             X = FIELD_ARRAY_SIZE - 1,
             Y = 0
         }
+
+        public enum GameMode
+        {
+            None = 0,
+            PlayMode = 1,
+            ExpansionMode = 2,
+        }
         #endregion
     }
 }
