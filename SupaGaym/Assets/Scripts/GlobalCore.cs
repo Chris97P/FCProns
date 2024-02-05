@@ -12,6 +12,7 @@ namespace Assets.Scripts
          * To-Do:
          * Spielererstellung auslagern (in Menü/GUI),
          * Regions in GlobalCore anpassen
+         * !!ActivePlayer wurde ausgelagert in neues Script "PlayerManagerScript" => muss überall im Code angepasst werden (es geht nix mehr)!!
          * 
          *****/
 
@@ -19,10 +20,11 @@ namespace Assets.Scripts
         
         public const int FIELD_ARRAY_SIZE = 8;
         public const int CAMERA_STANDARD_HEIGHT = -10;
-        
+
         #endregion
 
         #region ENUMS
+        #region StartPositions
         public enum StartPosTopLeft
         {
             X = 0,
@@ -46,6 +48,7 @@ namespace Assets.Scripts
             X = FIELD_ARRAY_SIZE - 1,
             Y = 0
         }
+        #endregion
 
         public enum GameMode
         {
@@ -53,7 +56,16 @@ namespace Assets.Scripts
             PlayMode = 1,
             ExpansionMode = 2,
         }
+
+        public enum FieldStatus
+        {
+            Default = 0,
+            ExpansionStart = 1,
+            Neighbor = 2
+        }
         #endregion
+
+
     }
 }
 

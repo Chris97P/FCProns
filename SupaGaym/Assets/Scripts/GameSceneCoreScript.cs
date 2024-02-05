@@ -6,27 +6,37 @@ namespace Assets.Scripts
     public class GameSceneCoreScript : MonoBehaviour
     {
         public static FieldManagerScript FieldManagerScriptInstance;
-        public static PlayerScript ActivePlayer;
-        public static GlobalCore.GameMode GameMode;
 
-        public PlayerScript Player1;
-        public PlayerScript Player2;
-        
+        private static GlobalCore.GameMode _gameMode;
+
+        public static GlobalCore.GameMode GameMode
+        {
+            get { return _gameMode; }
+            set 
+            {
+                _gameMode = value;
+                if (value == GlobalCore.GameMode.PlayMode)
+                {
+                    FieldManagerScriptInstance.ResetAllHighlightedFields();
+                }
+            }
+        }
+
+        public PlayerManagerScript PlayerManagerScriptInstance;
+        public static GameSceneCoreScript Instance;
+
+
 
         // Start is called before the first frame update
         void Awake()
         {
+            Instance = this;
+
             FieldManagerScriptInstance = gameObject.AddComponent<FieldManagerScript>();
+            PlayerManagerScriptInstance = gameObject.AddComponent<PlayerManagerScript>();
             
             InitializeCamera();
-            
-            Player1 = new PlayerScript((int)GlobalCore.StartPosTopLeft.X, (int)GlobalCore.StartPosTopLeft.Y, Color.green, "Chrisi");
-            FieldManagerScriptInstance.FieldArray[Player1.StartingPosX, Player1.StartingPosY].GetComponent<FieldScript>().AssignFieldToPlayer(Player1);
 
-            Player2 = new PlayerScript((int)GlobalCore.StartPosBottomRight.X, (int)GlobalCore.StartPosBottomRight.Y, Color.red, "Flo");
-            FieldManagerScriptInstance.FieldArray[Player2.StartingPosX, Player2.StartingPosY].GetComponent<FieldScript>().AssignFieldToPlayer(Player2);
-
-            ActivePlayer = Player1;
             GameMode = GlobalCore.GameMode.PlayMode;
         }
 

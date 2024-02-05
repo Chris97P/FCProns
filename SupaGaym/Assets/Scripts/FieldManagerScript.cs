@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -41,6 +42,16 @@ namespace Assets.Scripts
             }
         }
 
+        public void ResetAllHighlightedFields()
+        {
+            for (int y = 0; y < FieldArray.GetLength(1); y++)
+            {
+                for (int x = 0; x < FieldArray.GetLength(0); x++)
+                {
+                    FieldArray[x,y].GetComponent<FieldScript>().ResetHighlightedField();
+                }
+            }
+        }
     }
 }
 
