@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -6,7 +5,7 @@ namespace Assets.Scripts
     public class FieldManagerScript : MonoBehaviour
     {
         public FieldManagerScript Instance;
-        public GameObject[,] FieldArray; 
+        public GameObject[,] FieldArray;
         public GameObject FieldPrefab;
         public GameObject FieldContainer;
 
@@ -16,11 +15,11 @@ namespace Assets.Scripts
             Instance = this;
             FieldPrefab = Resources.Load<GameObject>("Prefabs/FieldPrefab");
             FieldContainer = new GameObject("FieldContainer");
-            
+
             CreateFieldArray();
         }
 
-       
+
         public void CreateFieldArray()
         {
             FieldArray = new GameObject[GlobalCore.FIELD_ARRAY_SIZE, GlobalCore.FIELD_ARRAY_SIZE];
@@ -36,7 +35,7 @@ namespace Assets.Scripts
                     FieldArray[x, y].name = $"Field [{x},{y}]";
                     fieldScriptInstance = FieldArray[x, y].GetComponent<FieldScript>();
                     fieldScriptInstance._arrayPosX = x;
-                    fieldScriptInstance._arrayPosY = y;                    
+                    fieldScriptInstance._arrayPosY = y;
                     FieldArray[x, y].transform.position = new Vector2(x + (0.05f * x), y + (0.05f * y));
                 }
             }
@@ -48,7 +47,7 @@ namespace Assets.Scripts
             {
                 for (int x = 0; x < FieldArray.GetLength(0); x++)
                 {
-                    FieldArray[x,y].GetComponent<FieldScript>().ResetHighlightedField();
+                    FieldArray[x, y].GetComponent<FieldScript>().ResetHighlightedField();
                 }
             }
         }

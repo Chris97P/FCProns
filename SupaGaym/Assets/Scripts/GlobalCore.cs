@@ -24,7 +24,7 @@ namespace Assets.Scripts
         #endregion
 
         #region ENUMS
-        #region StartPositions
+        //#region StartPositions
         public enum StartPosTopLeft
         {
             X = 0,
@@ -48,7 +48,7 @@ namespace Assets.Scripts
             X = FIELD_ARRAY_SIZE - 1,
             Y = 0
         }
-        #endregion
+        //#endregion
 
         public enum GameMode
         {
