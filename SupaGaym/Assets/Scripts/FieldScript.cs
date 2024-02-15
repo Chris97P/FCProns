@@ -4,26 +4,36 @@ namespace Assets.Scripts
 {
     public class FieldScript : MonoBehaviour
     {
+
+        #region Konstanten
         private const string _NAME_MOUSE_HOVER_GAME_OBJECT = "MouseHover";
         private const string _NAME_MAIN_COLOR_GAME_OBJECT = "MainColor";
-        
+        #endregion
+
+        #region Statische Variablen
         private static Color _baseColorTransparency = Color.black;
         private static Color _baseColorEdge = Color.black;
+        #endregion
 
+        #region Variablen
         private GameObject _edgeChosenGameObject;
         private PlayerScript _playerScriptInstance;
-        private bool _isChosen = false;
         private GlobalCore.FieldStatus _fieldStatus = GlobalCore.FieldStatus.Default;
+        private SpriteRenderer _mouseHoverSpriteRenderer;
+        private SpriteRenderer _mainColorSpriteRenderer;
 
         public int _arrayPosX;
         public int _arrayPosY;
+        #endregion
+
+        #region Properties
         public PlayerScript PlayerScriptInstance
         {
             get { return _playerScriptInstance; }
             set { _playerScriptInstance = value; }
         }
-        private SpriteRenderer _mouseHoverSpriteRenderer;
-        private SpriteRenderer _mainColorSpriteRenderer;
+        #endregion
+
 
         // Start is called before the first frame update
         void Awake()
@@ -49,7 +59,7 @@ namespace Assets.Scripts
             //ToDo:
             //bei Click auf eigenes Feld das alte Expansion Feld inkl. Nachbarn abwählen und das neue wählen (Tausch vom Expansion Feld)
 
-            Debug.Log($"{name} clicked");
+            UnityEngine.Debug.Log($"{name} clicked");
 
             #region PlayMode
             if (GameSceneCoreScript.GameMode == GlobalCore.GameMode.PlayMode)
