@@ -5,22 +5,39 @@ namespace Assets.Scripts
 {
     public class GameSceneCoreScript : MonoBehaviour
     {
-        public FieldManagerScript FieldManagerScript;
-        public PlayerScript Player1;
-        public PlayerScript Player2;
+        public static FieldManagerScript FieldManagerScriptInstance;
+
+        private static GlobalCore.GameMode _gameMode;
+
+        public static GlobalCore.GameMode GameMode
+        {
+            get { return _gameMode; }
+            set 
+            {
+                _gameMode = value;
+                if (value == GlobalCore.GameMode.PlayMode)
+                {
+                    FieldManagerScriptInstance.ResetAllHighlightedFields();
+                }
+            }
+        }
+
+        public PlayerManagerScript PlayerManagerScriptInstance;
+        public static GameSceneCoreScript Instance;
+
+
 
         // Start is called before the first frame update
         void Awake()
         {
-            FieldManagerScript = gameObject.AddComponent<FieldManagerScript>();
+            Instance = this;
+
+            FieldManagerScriptInstance = gameObject.AddComponent<FieldManagerScript>();
+            PlayerManagerScriptInstance = gameObject.AddComponent<PlayerManagerScript>();
             
             InitializeCamera();
-            
-            Player1 = new PlayerScript((int)GlobalCore.StartPosTopLeft.X, (int)GlobalCore.StartPosTopLeft.Y, Color.green);
-            SetStartPosition(Player1);
 
-            Player2 = new PlayerScript((int)GlobalCore.StartPosBottomRight.X, (int)GlobalCore.StartPosBottomRight.Y, Color.red);
-            SetStartPosition(Player2);
+            GameMode = GlobalCore.GameMode.PlayMode;
         }
 
         // Update is called once per frame
@@ -34,20 +51,6 @@ namespace Assets.Scripts
             float x = (GlobalCore.FIELD_ARRAY_SIZE / 2) - 0.5f;
             float y = (GlobalCore.FIELD_ARRAY_SIZE / 2) - 0.5f;
             Camera.main.transform.position = new Vector3(x, y, GlobalCore.CAMERA_STANDARD_HEIGHT); 
-        }
-
-        private void SetStartPosition(PlayerScript playerScript)
-        {
-            for (int y = 0; y < FieldManagerScript.FieldArray.GetLength(1); y++ )
-            {
-                for (int x = 0; x < FieldManagerScript.FieldArray.GetLength(0); x++)
-                {
-                    if (y == playerScript.StartingPosY &&  x == playerScript.StartingPosX)
-                    {
-                        FieldManagerScript.FieldArray[x, y].GetComponent<SpriteRenderer>().color = playerScript.PlayerColor;
-                    }
-                }
-            }
         }
     }
 }
