@@ -14,7 +14,6 @@ namespace Assets.Scripts
             StartingPosY = posY;
             PlayerColor = color;
         }
-
     }
 }
 
