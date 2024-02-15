@@ -5,45 +5,45 @@ namespace Assets.Scripts
 {
     public class GameSceneCoreScript : MonoBehaviour
     {
-        public static FieldManagerScript FieldManagerScriptInstance;
-
+        #region Statische Variablen
         private static GlobalCore.GameMode _gameMode;
+        public static GameSceneCoreScript Instance;
+        #endregion
 
-        public static GlobalCore.GameMode GameMode
+        #region Public Variablen
+        public FieldManagerScript FieldManagerScriptInstance;
+        public PlayerManagerScript PlayerManagerScriptInstance;
+        #endregion
+
+        #region Properties
+        public GlobalCore.GameMode GameMode
         {
             get { return _gameMode; }
-            set 
+            set
             {
                 _gameMode = value;
                 if (value == GlobalCore.GameMode.PlayMode)
                 {
-                    FieldManagerScriptInstance.ResetAllHighlightedFields();
+                    this.FieldManagerScriptInstance.ResetAllHighlightedFields();
                 }
             }
         }
+        #endregion
 
-        public PlayerManagerScript PlayerManagerScriptInstance;
-        public static GameSceneCoreScript Instance;
-
-
-
-        // Start is called before the first frame update
+        
         void Awake()
         {
             Instance = this;
 
             FieldManagerScriptInstance = gameObject.AddComponent<FieldManagerScript>();
             PlayerManagerScriptInstance = gameObject.AddComponent<PlayerManagerScript>();
-            
+
+            FieldManagerScriptInstance.Init();
+            PlayerManagerScriptInstance.Init();
+
             InitializeCamera();
 
             GameMode = GlobalCore.GameMode.PlayMode;
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
 
         private void InitializeCamera()

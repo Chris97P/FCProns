@@ -9,8 +9,7 @@ namespace Assets.Scripts
         public GameObject FieldPrefab;
         public GameObject FieldContainer;
 
-        // Start is called before the first frame update
-        private void Awake()
+        public void Init()
         {
             Instance = this;
             FieldPrefab = Resources.Load<GameObject>("Prefabs/FieldPrefab");
@@ -18,7 +17,6 @@ namespace Assets.Scripts
 
             CreateFieldArray();
         }
-
 
         public void CreateFieldArray()
         {

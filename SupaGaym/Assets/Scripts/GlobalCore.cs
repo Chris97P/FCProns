@@ -59,9 +59,10 @@ namespace Assets.Scripts
 
         public enum FieldStatus
         {
-            Default = 0,
+            Unselected = 0,
             ExpansionStart = 1,
-            Neighbor = 2
+            DirectNeighbor = 2,
+            IndirectNeighbor = 3
         }
         #endregion
 

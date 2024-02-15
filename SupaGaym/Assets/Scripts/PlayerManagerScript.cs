@@ -7,21 +7,39 @@ namespace Assets.Scripts
     {
         public PlayerScript Player1;
         public PlayerScript Player2;
-        public PlayerScript ActivePlayer;
+        //public PlayerScript ActivePlayer;
+        //public PlayerScript NextPlayer;
+        private readonly List<PlayerScript> _playerList = new();
 
-        private List<PlayerScript> _playerList;
-       
+        #region Properties
 
-        void Awake()
+        private PlayerScript _activePlayer;
+
+        public PlayerScript ActivePlayer
+        {
+            get { return _activePlayer; }
+            set 
+            { 
+                _activePlayer = value;
+            }
+        }
+
+        #endregion
+
+
+        public void Init()
         {
             Player1 = new PlayerScript((int)GlobalCore.StartPosTopLeft.X, (int)GlobalCore.StartPosTopLeft.Y, Color.green, "Chrisi");
-            GameSceneCoreScript.FieldManagerScriptInstance.FieldArray[Player1.StartingPosX, Player1.StartingPosY].GetComponent<FieldScript>().AssignFieldToPlayer(Player1);
+            GameSceneCoreScript.Instance.FieldManagerScriptInstance.FieldArray[Player1.StartingPosX, Player1.StartingPosY].GetComponent<FieldScript>().AssignFieldToPlayer(Player1);
 
             Player2 = new PlayerScript((int)GlobalCore.StartPosBottomRight.X, (int)GlobalCore.StartPosBottomRight.Y, Color.red, "Flo");
-            GameSceneCoreScript.FieldManagerScriptInstance.FieldArray[Player2.StartingPosX, Player2.StartingPosY].GetComponent<FieldScript>().AssignFieldToPlayer(Player2);
+            GameSceneCoreScript.Instance.FieldManagerScriptInstance.FieldArray[Player2.StartingPosX, Player2.StartingPosY].GetComponent<FieldScript>().AssignFieldToPlayer(Player2);
+
 
             _playerList.Add(Player1);
             _playerList.Add(Player2);
+
+            SetActivePlayer(Player1);
         }
 
         public void SetActivePlayer(PlayerScript activePlayer)
@@ -32,6 +50,10 @@ namespace Assets.Scripts
         public PlayerScript GetNextPlayer()
         {
             int _indexOfActivePlayer = _playerList.IndexOf(ActivePlayer);
+
+            if (_indexOfActivePlayer == _playerList.Count - 1)
+                return _playerList[0];
+
             return _playerList[_indexOfActivePlayer + 1];
         }
     }
