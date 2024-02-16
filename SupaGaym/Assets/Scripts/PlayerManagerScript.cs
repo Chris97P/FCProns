@@ -21,6 +21,7 @@ namespace Assets.Scripts
             set 
             { 
                 _activePlayer = value;
+                GameSceneCoreScript.Instance.CanvasManagerScriptInstance.ActivePlayerRawImage.color = value.Color;
             }
         }
 

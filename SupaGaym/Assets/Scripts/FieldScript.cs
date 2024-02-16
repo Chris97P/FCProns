@@ -83,12 +83,14 @@ namespace Assets.Scripts
                 {
                     AssignFieldToPlayer(GameSceneCoreScript.Instance.PlayerManagerScriptInstance.ActivePlayer);
                     _playerManagerScriptInstance.SetActivePlayer(_playerManagerScriptInstance.GetNextPlayer());
+                    //METHODE
                 }
                 else if (_fieldStatus == GlobalCore.FieldStatus.IndirectNeighbor)
                 {
                     UnassignExpansionField();
                     AssignFieldToPlayer(GameSceneCoreScript.Instance.PlayerManagerScriptInstance.ActivePlayer);
                     _playerManagerScriptInstance.SetActivePlayer(_playerManagerScriptInstance.GetNextPlayer());
+                    //METHODE
                 }
                 else if (_fieldStatus == GlobalCore.FieldStatus.ExpansionStart)
                 {
@@ -130,10 +132,36 @@ namespace Assets.Scripts
             LoopThroughGameObjectChildsAndSetSpriteRendererColor(_edgeChosenGameObject, _baseColorEdge);
         }
 
-        public void AssignFieldToPlayer(PlayerScript playerInstance)
+        public void AssignFieldToPlayer(PlayerScript playerInstance, bool getDirectNeighbor = true)
         {
             _mainColorSpriteRenderer.color = playerInstance.Color;
             PlayerScriptInstance = playerInstance;
+
+            if (getDirectNeighbor)
+                GetDirectNeighborsFromEnemyPlayer();
+        }
+
+        void GetDirectNeighborsFromEnemyPlayer()
+        {
+            for (int y = -1; y < 2; y++)
+            {
+                for (int x = -1; x < 2; x++)
+                {
+                    if (_arrayPosX + x < 0
+                        || _arrayPosY + y < 0
+                        || _arrayPosX + x > GlobalCore.FIELD_ARRAY_SIZE - 1
+                        || _arrayPosY + y > GlobalCore.FIELD_ARRAY_SIZE - 1)
+                        continue;
+
+                    FieldScript fieldScriptToCheck = GameSceneCoreScript.Instance.FieldManagerScriptInstance.FieldArray[_arrayPosX + x, _arrayPosY + y].GetComponent<FieldScript>();
+
+                    if (fieldScriptToCheck._ownerPlayerScriptInstance != _ownerPlayerScriptInstance
+                        && fieldScriptToCheck._ownerPlayerScriptInstance is not null)
+                    {
+                        fieldScriptToCheck.AssignFieldToPlayer(_ownerPlayerScriptInstance, false);
+                    }
+                }
+            }
         }
 
         private void SelectUnselectFieldToStartExpansion()
@@ -151,7 +179,6 @@ namespace Assets.Scripts
             {
                 _fieldStatus = GlobalCore.FieldStatus.Unselected;
                 LoopThroughGameObjectChildsAndSetSpriteRendererColor(_edgeChosenGameObject, _baseColorEdge);
-
                 HighlightUnhighligtDirectNeighbor();
                 HighlightUnhighlightIndirectNeighbor();
 
@@ -165,12 +192,13 @@ namespace Assets.Scripts
             {
                 for (int x = -1; x < 2; x++)
                 {
-                    if (_arrayPosX + x < GlobalCore.FIELD_ARRAY_SIZE && _arrayPosY + y < GlobalCore.FIELD_ARRAY_SIZE)
-                    {
-                        if (_arrayPosX + x < 0 || _arrayPosY + y < 0)
-                            continue;
+                    if (_arrayPosX + x < 0
+                        || _arrayPosY + y < 0
+                        || _arrayPosX + x > GlobalCore.FIELD_ARRAY_SIZE - 1
+                        || _arrayPosY + y > GlobalCore.FIELD_ARRAY_SIZE - 1)
+                        continue;
 
-                        FieldScript fieldScriptToCheck = GameSceneCoreScript.Instance.FieldManagerScriptInstance.FieldArray[_arrayPosX + x, _arrayPosY + y].GetComponent<FieldScript>();
+                    FieldScript fieldScriptToCheck = GameSceneCoreScript.Instance.FieldManagerScriptInstance.FieldArray[_arrayPosX + x, _arrayPosY + y].GetComponent<FieldScript>();
                         if (fieldScriptToCheck._ownerPlayerScriptInstance is null)
                         {
                             GameObject edgeChosenNeighborGameObject = GameSceneCoreScript.Instance.FieldManagerScriptInstance.FieldArray[_arrayPosX + x, _arrayPosY + y].transform.Find("EdgeChosen").gameObject;
@@ -185,7 +213,6 @@ namespace Assets.Scripts
                                 LoopThroughGameObjectChildsAndSetSpriteRendererColor(edgeChosenNeighborGameObject, _baseColorEdge);
                             }
                         }
-                    }
                 }
             }
         }
@@ -194,6 +221,7 @@ namespace Assets.Scripts
         {
             for (int y = -2; y < 3; y += 4)
             {
+                //ToDo bedingungen verschönern
                 if (_arrayPosY + y < GlobalCore.FIELD_ARRAY_SIZE)
                 {
                     if (_arrayPosY + y < 0)

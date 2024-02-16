@@ -13,6 +13,7 @@ namespace Assets.Scripts
         #region Public Variablen
         public FieldManagerScript FieldManagerScriptInstance;
         public PlayerManagerScript PlayerManagerScriptInstance;
+        public CanvasManagerScript CanvasManagerScriptInstance;
         #endregion
 
         #region Properties
@@ -37,6 +38,7 @@ namespace Assets.Scripts
 
             FieldManagerScriptInstance = gameObject.AddComponent<FieldManagerScript>();
             PlayerManagerScriptInstance = gameObject.AddComponent<PlayerManagerScript>();
+            CanvasManagerScriptInstance = gameObject.AddComponent<CanvasManagerScript>();
 
             FieldManagerScriptInstance.Init();
             PlayerManagerScriptInstance.Init();
@@ -49,7 +51,7 @@ namespace Assets.Scripts
         private void InitializeCamera()
         {
             float x = (GlobalCore.FIELD_ARRAY_SIZE / 2) - 0.5f;
-            float y = (GlobalCore.FIELD_ARRAY_SIZE / 2) - 0.5f;
+            float y = (GlobalCore.FIELD_ARRAY_SIZE / 2) - 0.5f + 0.7f;
             Camera.main.transform.position = new Vector3(x, y, GlobalCore.CAMERA_STANDARD_HEIGHT); 
         }
     }

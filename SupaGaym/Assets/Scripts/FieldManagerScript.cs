@@ -28,7 +28,7 @@ namespace Assets.Scripts
             {
                 for (int x = 0; x < FieldArray.GetLength(0); x++)
                 {
-                    FieldArray[x, y] = GameObject.Instantiate(FieldPrefab);
+                    FieldArray[x, y] = Instantiate(FieldPrefab);
                     FieldArray[x, y].transform.SetParent(FieldContainer.transform);
                     FieldArray[x, y].name = $"Field [{x},{y}]";
                     fieldScriptInstance = FieldArray[x, y].GetComponent<FieldScript>();

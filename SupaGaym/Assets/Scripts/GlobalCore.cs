@@ -9,14 +9,12 @@ namespace Assets.Scripts
          * Notes
          * -----
          * 
-         * To-Do:
-         * Spielererstellung auslagern (in Menü/GUI),
-         * Regions in GlobalCore anpassen
-         * !!ActivePlayer wurde ausgelagert in neues Script "PlayerManagerScript" => muss überall im Code angepasst werden (es geht nix mehr)!!
+         * FinishMode:
+         * Durchs FeldArray laufen und alle Felder des näpchsten SPielers checken ob noch Felder ohne Besitzer in reichweite sind, wenn ja Finish und Felder zählen
          * 
          *****/
 
-        #region GameObjectNames
+        #region Allgemeines
         
         public const int FIELD_ARRAY_SIZE = 8;
         public const int CAMERA_STANDARD_HEIGHT = -10;
@@ -55,6 +53,7 @@ namespace Assets.Scripts
             None = 0,
             PlayMode = 1,
             ExpansionMode = 2,
+            FinishMode = 3
         }
 
         public enum FieldStatus
