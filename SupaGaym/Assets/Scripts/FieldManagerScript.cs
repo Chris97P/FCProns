@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -48,6 +49,22 @@ namespace Assets.Scripts
                     FieldArray[x, y].GetComponent<FieldScript>().ResetHighlightedField();
                 }
             }
+        }
+
+        public int GetFieldCount(PlayerScript player)
+        {
+            int count = 0;
+
+            for (int y = 0; y < FieldArray.GetLength(1); y++)
+            {
+                for (int x = 0; x < FieldArray.GetLength(0); x++)
+                {
+                    if (FieldArray[x, y].GetComponent<FieldScript>().OwnerPlayerScriptInstance == player)
+                        count++;
+                }
+            }
+
+            return count;
         }
     }
 }

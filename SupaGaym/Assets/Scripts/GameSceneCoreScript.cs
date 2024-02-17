@@ -27,6 +27,10 @@ namespace Assets.Scripts
                 {
                     this.FieldManagerScriptInstance.ResetAllHighlightedFields();
                 }
+                else if (value == GlobalCore.GameMode.FinishMode)
+                {
+                    this.CanvasManagerScriptInstance.ShowFinishScreen();
+                }
             }
         }
         #endregion
@@ -46,6 +50,8 @@ namespace Assets.Scripts
             InitializeCamera();
 
             GameMode = GlobalCore.GameMode.PlayMode;
+
+            //TestScript.SetAllEmptyFieldsToActivePlayer();
         }
 
         private void InitializeCamera()

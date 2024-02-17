@@ -44,6 +44,7 @@
                   <Enabled>False</Enabled>
                 </Item>
                 <Item Id="{3571dac9-dcdb-4a12-ad02-40e892e6672f}">
+                  <Enabled>False</Enabled>
                   <Key1>
                     <KeyCode>9</KeyCode>
                   </Key1>

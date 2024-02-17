@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -41,6 +42,11 @@ namespace Assets.Scripts
             _playerList.Add(Player2);
 
             SetActivePlayer(Player1);
+        }
+
+        public List<PlayerScript> GetPlayerList()
+        {
+            return _playerList;
         }
 
         public void SetActivePlayer(PlayerScript activePlayer)

@@ -9,8 +9,7 @@ namespace Assets.Scripts
          * Notes
          * -----
          * 
-         * FinishMode:
-         * Durchs FeldArray laufen und alle Felder des näpchsten SPielers checken ob noch Felder ohne Besitzer in reichweite sind, wenn ja Finish und Felder zählen
+         * Checken, ob ein Spieler überhaupt noch auf dem Feld ist
          * 
          *****/
 

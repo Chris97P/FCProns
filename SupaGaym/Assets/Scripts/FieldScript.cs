@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -18,8 +19,7 @@ namespace Assets.Scripts
         #endregion
 
         #region Variablen
-        private GameObject _edgeChosenGameObject;
-        private PlayerScript _ownerPlayerScriptInstance;
+        private GameObject _edgeChosenGameObject;        
         private GlobalCore.FieldStatus _fieldStatus = GlobalCore.FieldStatus.Unselected;
         private SpriteRenderer _mouseHoverSpriteRenderer;
         private SpriteRenderer _mainColorSpriteRenderer;
@@ -30,7 +30,8 @@ namespace Assets.Scripts
         #endregion
 
         #region Properties
-        public PlayerScript PlayerScriptInstance
+        private PlayerScript _ownerPlayerScriptInstance;
+        public PlayerScript OwnerPlayerScriptInstance
         {
             get { return _ownerPlayerScriptInstance; }
             set { _ownerPlayerScriptInstance = value; }
@@ -82,15 +83,29 @@ namespace Assets.Scripts
                 if (_fieldStatus == GlobalCore.FieldStatus.DirectNeighbor)
                 {
                     AssignFieldToPlayer(GameSceneCoreScript.Instance.PlayerManagerScriptInstance.ActivePlayer);
+                                        
+                    if (!IsExpansionPossible())
+                    {
+                        GameSceneCoreScript.Instance.FieldManagerScriptInstance.ResetAllHighlightedFields();
+                        GameSceneCoreScript.Instance.GameMode = GlobalCore.GameMode.FinishMode;
+                        return;
+                    }
+
                     _playerManagerScriptInstance.SetActivePlayer(_playerManagerScriptInstance.GetNextPlayer());
-                    //METHODE
                 }
                 else if (_fieldStatus == GlobalCore.FieldStatus.IndirectNeighbor)
                 {
                     UnassignExpansionField();
                     AssignFieldToPlayer(GameSceneCoreScript.Instance.PlayerManagerScriptInstance.ActivePlayer);
+                                       
+                    if (!IsExpansionPossible())
+                    {
+                        GameSceneCoreScript.Instance.FieldManagerScriptInstance.ResetAllHighlightedFields();
+                        GameSceneCoreScript.Instance.GameMode = GlobalCore.GameMode.FinishMode;
+                        return;
+                    }
+
                     _playerManagerScriptInstance.SetActivePlayer(_playerManagerScriptInstance.GetNextPlayer());
-                    //METHODE
                 }
                 else if (_fieldStatus == GlobalCore.FieldStatus.ExpansionStart)
                 {
@@ -135,7 +150,7 @@ namespace Assets.Scripts
         public void AssignFieldToPlayer(PlayerScript playerInstance, bool getDirectNeighbor = true)
         {
             _mainColorSpriteRenderer.color = playerInstance.Color;
-            PlayerScriptInstance = playerInstance;
+            OwnerPlayerScriptInstance = playerInstance;
 
             if (getDirectNeighbor)
                 GetDirectNeighborsFromEnemyPlayer();
@@ -162,6 +177,80 @@ namespace Assets.Scripts
                     }
                 }
             }
+        }
+
+        private bool IsExpansionPossible()
+        {
+            bool result = false;
+
+            for (int y = 0; y < GlobalCore.FIELD_ARRAY_SIZE; y++)
+            {
+                for (int x = 0; x < GlobalCore.FIELD_ARRAY_SIZE; x++)
+                {
+                    if (IsAnyNeighborsOwnerInstanceNull(x, y))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return result;
+        }
+
+        private bool IsAnyNeighborsOwnerInstanceNull(int posX, int posY)
+        {
+            bool result = false;
+            // direct neighbors
+            for (int y = -1; y < 2; y++)
+            {
+                for (int x = -1; x < 2; x++)
+                {
+                    if (_arrayPosX + x < 0
+                        || _arrayPosY + y < 0
+                        || _arrayPosX + x > GlobalCore.FIELD_ARRAY_SIZE - 1
+                        || _arrayPosY + y > GlobalCore.FIELD_ARRAY_SIZE - 1)
+                        continue;
+
+                    FieldScript fieldScriptToCheck = GameSceneCoreScript.Instance.FieldManagerScriptInstance.FieldArray[_arrayPosX + x, _arrayPosY + y].GetComponent<FieldScript>();
+
+                    if (fieldScriptToCheck._ownerPlayerScriptInstance is null)
+                    {
+                        return true;
+                    }                        
+                }
+            }
+
+            // indirect neighbors
+            for (int y = -2; y < 3; y += 4)
+            {                
+                if (_arrayPosY + y < GlobalCore.FIELD_ARRAY_SIZE)
+                {
+                    if (_arrayPosY + y < 0)
+                        continue;
+
+                    FieldScript fieldScriptToCheck = GameSceneCoreScript.Instance.FieldManagerScriptInstance.FieldArray[_arrayPosX, _arrayPosY + y].GetComponent<FieldScript>();
+                    if (fieldScriptToCheck._ownerPlayerScriptInstance is null)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            for (int x = -2; x < 3; x += 4)
+            {
+                if (_arrayPosY + x < GlobalCore.FIELD_ARRAY_SIZE)
+                {
+                    if (_arrayPosY + x < 0)
+                        continue;
+
+                    FieldScript fieldScriptToCheck = GameSceneCoreScript.Instance.FieldManagerScriptInstance.FieldArray[_arrayPosX + x, _arrayPosY].GetComponent<FieldScript>();
+                    if (fieldScriptToCheck._ownerPlayerScriptInstance is null)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return result;
         }
 
         private void SelectUnselectFieldToStartExpansion()
