@@ -45,13 +45,11 @@ namespace Assets.Scripts
             CanvasManagerScriptInstance = gameObject.AddComponent<CanvasManagerScript>();
 
             FieldManagerScriptInstance.Init();
-            PlayerManagerScriptInstance.Init();
+            //PlayerManagerScriptInstance.Init();
 
             InitializeCamera();
 
-            GameMode = GlobalCore.GameMode.PlayMode;
-
-            //TestScript.SetAllEmptyFieldsToActivePlayer();
+            TestScript.SetAllEmptyFieldsToActivePlayer();
         }
 
         private void InitializeCamera()

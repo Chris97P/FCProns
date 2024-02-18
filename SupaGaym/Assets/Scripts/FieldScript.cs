@@ -182,11 +182,20 @@ namespace Assets.Scripts
         private bool IsExpansionPossible()
         {
             bool result = false;
+            FieldScript fieldScriptToCheck;
+            PlayerScript nextPlayer = GameSceneCoreScript.Instance.PlayerManagerScriptInstance.GetNextPlayer();
 
             for (int y = 0; y < GlobalCore.FIELD_ARRAY_SIZE; y++)
             {
                 for (int x = 0; x < GlobalCore.FIELD_ARRAY_SIZE; x++)
                 {
+                    fieldScriptToCheck = GameSceneCoreScript.Instance.FieldManagerScriptInstance.FieldArray[x, y].GetComponent<FieldScript>();
+                    
+                    if (fieldScriptToCheck._ownerPlayerScriptInstance != nextPlayer) 
+                    {
+                        continue;
+                    }
+                    
                     if (IsAnyNeighborsOwnerInstanceNull(x, y))
                     {
                         return true;
@@ -204,13 +213,13 @@ namespace Assets.Scripts
             {
                 for (int x = -1; x < 2; x++)
                 {
-                    if (_arrayPosX + x < 0
-                        || _arrayPosY + y < 0
-                        || _arrayPosX + x > GlobalCore.FIELD_ARRAY_SIZE - 1
-                        || _arrayPosY + y > GlobalCore.FIELD_ARRAY_SIZE - 1)
+                    if (posX + x < 0
+                        || posY + y < 0
+                        || posX + x > GlobalCore.FIELD_ARRAY_SIZE - 1
+                        || posY + y > GlobalCore.FIELD_ARRAY_SIZE - 1)
                         continue;
 
-                    FieldScript fieldScriptToCheck = GameSceneCoreScript.Instance.FieldManagerScriptInstance.FieldArray[_arrayPosX + x, _arrayPosY + y].GetComponent<FieldScript>();
+                    FieldScript fieldScriptToCheck = GameSceneCoreScript.Instance.FieldManagerScriptInstance.FieldArray[posX + x, posY + y].GetComponent<FieldScript>();
 
                     if (fieldScriptToCheck._ownerPlayerScriptInstance is null)
                     {
@@ -222,12 +231,12 @@ namespace Assets.Scripts
             // indirect neighbors
             for (int y = -2; y < 3; y += 4)
             {                
-                if (_arrayPosY + y < GlobalCore.FIELD_ARRAY_SIZE)
+                if (posY + y < GlobalCore.FIELD_ARRAY_SIZE)
                 {
-                    if (_arrayPosY + y < 0)
+                    if (posY + y < 0)
                         continue;
 
-                    FieldScript fieldScriptToCheck = GameSceneCoreScript.Instance.FieldManagerScriptInstance.FieldArray[_arrayPosX, _arrayPosY + y].GetComponent<FieldScript>();
+                    FieldScript fieldScriptToCheck = GameSceneCoreScript.Instance.FieldManagerScriptInstance.FieldArray[posX, posY + y].GetComponent<FieldScript>();
                     if (fieldScriptToCheck._ownerPlayerScriptInstance is null)
                     {
                         return true;
@@ -237,12 +246,12 @@ namespace Assets.Scripts
 
             for (int x = -2; x < 3; x += 4)
             {
-                if (_arrayPosY + x < GlobalCore.FIELD_ARRAY_SIZE)
+                if (posX + x < GlobalCore.FIELD_ARRAY_SIZE)
                 {
-                    if (_arrayPosY + x < 0)
+                    if (posX + x < 0)
                         continue;
 
-                    FieldScript fieldScriptToCheck = GameSceneCoreScript.Instance.FieldManagerScriptInstance.FieldArray[_arrayPosX + x, _arrayPosY].GetComponent<FieldScript>();
+                    FieldScript fieldScriptToCheck = GameSceneCoreScript.Instance.FieldManagerScriptInstance.FieldArray[posX + x, posY].GetComponent<FieldScript>();
                     if (fieldScriptToCheck._ownerPlayerScriptInstance is null)
                     {
                         return true;

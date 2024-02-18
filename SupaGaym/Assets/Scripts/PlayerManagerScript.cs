@@ -22,26 +22,28 @@ namespace Assets.Scripts
             set 
             { 
                 _activePlayer = value;
-                GameSceneCoreScript.Instance.CanvasManagerScriptInstance.ActivePlayerRawImage.color = value.Color;
+                GameSceneCoreScript.Instance.CanvasManagerScriptInstance.ActivePlayerRawImage.color = value.Color;                
             }
         }
 
         #endregion
 
-
-        public void Init()
+        void Awake()
         {
             Player1 = new PlayerScript((int)GlobalCore.StartPosTopLeft.X, (int)GlobalCore.StartPosTopLeft.Y, Color.green, "Chrisi");
-            GameSceneCoreScript.Instance.FieldManagerScriptInstance.FieldArray[Player1.StartingPosX, Player1.StartingPosY].GetComponent<FieldScript>().AssignFieldToPlayer(Player1);
-
             Player2 = new PlayerScript((int)GlobalCore.StartPosBottomRight.X, (int)GlobalCore.StartPosBottomRight.Y, Color.red, "Flo");
-            GameSceneCoreScript.Instance.FieldManagerScriptInstance.FieldArray[Player2.StartingPosX, Player2.StartingPosY].GetComponent<FieldScript>().AssignFieldToPlayer(Player2);
-
 
             _playerList.Add(Player1);
             _playerList.Add(Player2);
+        }
 
-            SetActivePlayer(Player1);
+        public void Init()
+        {
+            
+            GameSceneCoreScript.Instance.FieldManagerScriptInstance.FieldArray[Player1.StartingPosX, Player1.StartingPosY].GetComponent<FieldScript>().AssignFieldToPlayer(Player1);
+            GameSceneCoreScript.Instance.FieldManagerScriptInstance.FieldArray[Player2.StartingPosX, Player2.StartingPosY].GetComponent<FieldScript>().AssignFieldToPlayer(Player2);
+
+            SetActivePlayer(GetNextPlayer());
         }
 
         public List<PlayerScript> GetPlayerList()
@@ -56,6 +58,11 @@ namespace Assets.Scripts
 
         public PlayerScript GetNextPlayer()
         {
+            if (ActivePlayer is null)
+            {
+                return _playerList[0];
+            }
+
             int _indexOfActivePlayer = _playerList.IndexOf(ActivePlayer);
 
             if (_indexOfActivePlayer == _playerList.Count - 1)

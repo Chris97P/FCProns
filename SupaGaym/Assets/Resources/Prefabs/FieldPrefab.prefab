@@ -464,7 +464,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2145504492692663508}
-  - component: {fileID: 7867706198874837996}
   - component: {fileID: 7684836656550402248}
   m_Layer: 0
   m_Name: FieldPrefab
@@ -492,20 +491,6 @@ Transform:
   - {fileID: 2910741766091220963}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7867706198874837996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4876247729650563079}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f42d6a2dc79639a46a1d6f7969951661, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _arrayPosX: 0
-  _arrayPosY: 0
 --- !u!61 &7684836656550402248
 BoxCollider2D:
   m_ObjectHideFlags: 0

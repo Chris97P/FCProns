@@ -29,9 +29,9 @@ namespace Assets.Scripts
       
         public void ShowFinishScreen()
         {
+            
             List<PlayerScript> playerList = GameSceneCoreScript.Instance.PlayerManagerScriptInstance.GetPlayerList();
-            string esIstScheissEgal = "";
-            int count = 0;
+            string esIstScheissEgal = "";           
 
             for (int i = 0; i < playerList.Count; i++)
             {
@@ -47,6 +47,12 @@ namespace Assets.Scripts
 
             _finishScreenGameObject.SetActive(true);
             _activePlayerDisplayGameObject.SetActive(false);
+        }
+
+        public void ShowStartScreen()
+        {
+            _finishScreenGameObject.SetActive(false);
+            _activePlayerDisplayGameObject.SetActive(true);
         }
     }
 }
